@@ -267,7 +267,11 @@ def get_cocokeypoint_from_video(path_video, mp_pose, \
 # def get_cocokeypoint_from_image(image, mp_pose):
 def get_cocokeypoint_from_image(path_image, mp_pose, \
                                 _model_complexity=1,\
-                                _min_detection_confidence=0.3):
+                                _min_detection_confidence=0.3, 
+                                fname_org = None):
+
+    if fname_org is None:
+        fname_org = os.path.basename(path_image)
 
     _model_complexity = checkerComplexity(_model_complexity)
     _min_detection_confidence = checkerThreshold(_min_detection_confidence)
@@ -303,7 +307,7 @@ def get_cocokeypoint_from_image(path_image, mp_pose, \
             d = dict(id=annid, image_id=num_images, bbox=[],\
                         keypoints=keypoint_coco, category_id=1, iscrowd=0,\
                         keyscore=score, num_keypoints=33, z=z_list)
-            coco_image += fmt_coco.make_coco_image(num_images, os.path.basename(path_image), image_height, image_width)
+            coco_image += fmt_coco.make_coco_image(num_images, fname_org, image_height, image_width)
             coco_annotation.append(d)
             annid += 1
 
