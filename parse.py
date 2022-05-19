@@ -262,7 +262,12 @@ def get_cocokeypoint_from_video(path_video, mp_pose, \
     
     return coco_image, coco_annotation, coco_category
 
-
+def get_coco_categories(mp_pose):
+    keypoint_list = [keypoint.name for keypoint in mp_pose.PoseLandmark]
+    skeleton = [[loop[0], loop[1]] for loop in list(mp_pose.POSE_CONNECTIONS)]
+    #frozenset({(15, 21), (16, 20), (18, 20), (3, 7), (14, 16), (23, 25), (28, 30), (11, 23), (27, 31), (6, 8), (15, 17), (24, 26), (16, 22), (4, 5), (5, 6), (29, 31), (12, 24), (23, 24), (0, 1), (9, 10), (1, 2), (0, 4), (11, 13), (30, 32), (28, 32), (15, 19), (16, 18), (25, 27), (26, 28), (12, 14), (17, 19), (2, 3), (11, 12), (27, 29), (13, 15)})
+    coco_category = fmt_coco.make_coco_category('person', 1, 'person', keypoint=keypoint_list, skeleton=skeleton)
+    return coco_category
 
 # def get_cocokeypoint_from_image(image, mp_pose):
 def get_cocokeypoint_from_image(path_image, mp_pose, \
