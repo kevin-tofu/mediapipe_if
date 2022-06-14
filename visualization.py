@@ -46,16 +46,16 @@ def draw_keypoint2img_colors(img, labels, pairsList, colorList, th=0.5):
 
     for label in labels:
         keypoints = np.array(label['keypoints'])
-        print("keypoints:", keypoints.shape)
+        # print("keypoints:", keypoints.shape)
         keypoints = keypoints.reshape((keypoints.shape[0] // 3, 3)) # (22, 3) ?
         scores = keypoints[:, 2] 
 
-        print("keypoints:", keypoints.shape)
+        # print("keypoints:", keypoints.shape)
         # scores = np.array(label['keyscore'])
         # print(keypoints.shape)
         for pairs, color in zip(pairsList, colorList):
             for pair in pairs:
-                print(pair)
+                # print(pair)
                 # score1 = scores[pair[0]]    
                 # score2 = scores[pair[1]]
                 # if score1 < th or score2 < th:
@@ -99,7 +99,7 @@ def draw_keypoint2video_colors(path_video, \
         success, image = cap.read()
         # _id = labels_images["id"]
         ann_image = [loop for loop in labels["images"] if loop["id"] == img_id]
-        print(ann_image)
+        # print(ann_image)
 
         if success:
             # image_height, image_width, _ = image.shape
