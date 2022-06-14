@@ -250,7 +250,7 @@ def get_cocokeypoint_from_video(path_video, mp_pose, \
 
                     d = dict(id=annid, image_id=num_images, bbox=[],\
                              keypoints=keypoint_coco, category_id=1, iscrowd=0,\
-                             keyscore=score, num_keypoints=33, z=z_list)
+                             keyscore=score, z=z_list) # num_keypoints=33, 
                     coco_image += fmt_coco.make_coco_image(num_images, fname_org, image_height, image_width)
                     coco_annotation.append(d)
                     annid += 1
@@ -264,7 +264,8 @@ def get_cocokeypoint_from_video(path_video, mp_pose, \
 
 def get_coco_categories(mp_pose):
     keypoint_list = [keypoint.name for keypoint in mp_pose.PoseLandmark]
-    skeleton = [[loop[0], loop[1]] for loop in list(mp_pose.POSE_CONNECTIONS)]
+    skeleton = [[loop[0]+1, loop[1]+1] for loop in list(mp_pose.POSE_CONNECTIONS)]
+    # skeleton = [[loop[0], loop[1]] for loop in list(mp_pose.POSE_CONNECTIONS)]
     #frozenset({(15, 21), (16, 20), (18, 20), (3, 7), (14, 16), (23, 25), (28, 30), (11, 23), (27, 31), (6, 8), (15, 17), (24, 26), (16, 22), (4, 5), (5, 6), (29, 31), (12, 24), (23, 24), (0, 1), (9, 10), (1, 2), (0, 4), (11, 13), (30, 32), (28, 32), (15, 19), (16, 18), (25, 27), (26, 28), (12, 14), (17, 19), (2, 3), (11, 12), (27, 29), (13, 15)})
     coco_category = fmt_coco.make_coco_category('person', 1, 'person', keypoint=keypoint_list, skeleton=skeleton)
     return coco_category
@@ -311,7 +312,7 @@ def get_cocokeypoint_from_image(path_image, mp_pose, \
 
             d = dict(id=annid, image_id=num_images, bbox=[],\
                         keypoints=keypoint_coco, category_id=1, iscrowd=0,\
-                        keyscore=score, num_keypoints=33, z=z_list)
+                        keyscore=score, z=z_list) # num_keypoints=33, 
             coco_image += fmt_coco.make_coco_image(num_images, fname_org, image_height, image_width)
             coco_annotation.append(d)
             annid += 1
