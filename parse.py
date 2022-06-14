@@ -99,6 +99,7 @@ def draw_keypoint2image(fpath_src, fpath_ex, mp_pose, mp_drawing, mp_drawing_sty
         # Draw the pose annotation on the image.
         image_cv.flags.writeable = True
         image_keypoint = image_cv.copy()
+        image_keypoint.flags.writeable = True
         #image_keypoint = cv2.cvtColor(image_keypoint, cv2.COLOR_RGB2BGR)
         mp_drawing.draw_landmarks(
             image_keypoint,
@@ -251,7 +252,7 @@ def get_cocokeypoint_from_video(path_video, mp_pose, \
 
                     d = dict(id=annid, image_id=num_images, bbox=[],\
                              keypoints=keypoint_coco, category_id=1, iscrowd=0,\
-                             keyscore=score, z=z_list) # num_keypoints=33, 
+                             z=z_list) # num_keypoints=33, keyscore=score, 
                     coco_image += fmt_coco.make_coco_image(num_images, fname_org, image_height, image_width)
                     coco_annotation.append(d)
                     annid += 1
@@ -314,7 +315,7 @@ def get_cocokeypoint_from_image(path_image, mp_pose, \
 
             d = dict(id=annid, image_id=num_images, bbox=[],\
                         keypoints=keypoint_coco, category_id=1, iscrowd=0,\
-                        keyscore=score, z=z_list) # num_keypoints=33, 
+                        z=z_list) # num_keypoints=33, keyscore=score, 
             coco_image += fmt_coco.make_coco_image(num_images, fname_org, image_height, image_width)
             coco_annotation.append(d)
             annid += 1
