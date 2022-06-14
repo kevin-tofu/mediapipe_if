@@ -40,21 +40,26 @@ def draw_keypoint2img(img, labels, pairs, color = [255, 0, 0], th=0.5):
     return ret
 
 
-async def draw_keypoint2img_colors(img, labels, pairsList, colorList, th=0.5):
+def draw_keypoint2img_colors(img, labels, pairsList, colorList, th=0.5):
 
     ret = np.copy(img)
 
     for label in labels:
         keypoints = np.array(label['keypoints'])
-        keypoints = keypoints.reshape((keypoints.shape[0] // 3, 3))
+        print("keypoints:", keypoints.shape)
+        keypoints = keypoints.reshape((keypoints.shape[0] // 3, 3)) # (22, 3) ?
+        scores = keypoints[:, 2] 
 
-        scores = np.array(label['keyscore'])
+        print("keypoints:", keypoints.shape)
+        # scores = np.array(label['keyscore'])
+        # print(keypoints.shape)
         for pairs, color in zip(pairsList, colorList):
             for pair in pairs:
-                score1 = scores[pair[0]]    
-                score2 = scores[pair[1]]
-                if score1 < th or score2 < th:
-                    continue
+                print(pair)
+                # score1 = scores[pair[0]]    
+                # score2 = scores[pair[1]]
+                # if score1 < th or score2 < th:
+                #     continue
                 
                 x1 = int(minmax(keypoints[pair[0]][0], 0, ret.shape[1] - 1))
                 y1 = int(minmax(keypoints[pair[0]][1], 0, ret.shape[0] - 1))
@@ -67,9 +72,9 @@ async def draw_keypoint2img_colors(img, labels, pairsList, colorList, th=0.5):
     return ret
 
 
-async def draw_keypoint2video_colors(path_video, \
-                                    path_video_dst, \
-                                    labels, pairsList, colorList, th=0.5):
+def draw_keypoint2video_colors(path_video, \
+                               path_video_dst, \
+                               labels, pairsList, colorList, th=0.5):
 
     from mediapipe_if.parse import set_audio
 
@@ -104,11 +109,11 @@ async def draw_keypoint2video_colors(path_video, \
             if len(ann_image) == 1:
                 l_point_ignore = [loop for loop in labels["annotations"] \
                               if loop["image_id"] == ann_image[0]["id"]]
-                image_keypoint = await draw_keypoint2img_colors(image, 
-                                                                l_point_ignore, 
-                                                                pairsList, 
-                                                                colorList, 
-                                                                th=th)
+                image_keypoint = draw_keypoint2img_colors(image, 
+                                                          l_point_ignore, 
+                                                          pairsList, 
+                                                          colorList, 
+                                                          th=th)
             else:
                 image_keypoint = image    
             
@@ -122,3 +127,5 @@ async def draw_keypoint2video_colors(path_video, \
     writer.release()
 
     set_audio(path_video, path_video_dst)
+
+
