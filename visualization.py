@@ -27,10 +27,10 @@ def draw_keypoint2img(img, labels, pairs, color = [255, 0, 0], th=0.5):
             score2 = scores[pair[1]]
             if score1 < th or score2 < th:
                 continue
-            x1 = int(minmax(keypoints[pair[0]][0], 0, ret.shape[1] - 1))
-            y1 = int(minmax(keypoints[pair[0]][1], 0, ret.shape[0] - 1))
-            x2 = int(minmax(keypoints[pair[1]][0], 0, ret.shape[1] - 1))
-            y2 = int(minmax(keypoints[pair[1]][1], 0, ret.shape[0] - 1))
+            x1 = int(minmax(keypoints[pair[0] - 1][0], 0, ret.shape[1] - 1))
+            y1 = int(minmax(keypoints[pair[0] - 1][1], 0, ret.shape[0] - 1))
+            x2 = int(minmax(keypoints[pair[1] - 1][0], 0, ret.shape[1] - 1))
+            y2 = int(minmax(keypoints[pair[1] - 1][1], 0, ret.shape[0] - 1))
 
             # print(y1, x1, y2, x2)
             rr, cc = line(y1, x1, y2, x2)
