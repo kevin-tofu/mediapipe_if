@@ -5,7 +5,7 @@ import cv2
 import mediapipe as mp
 from format_annotation import fmt_coco
 
-def set_audio(path_src, path_dst):
+def set_audio(path_src: str, path_dst: str):
     """
     https://kp-ft.com/684
     https://stackoverflow.com/questions/46864915/python-add-audio-to-video-opencv
@@ -35,14 +35,14 @@ def set_audio(path_src, path_dst):
     os.remove(path_dst_copy)
 
 
-def checkerComplexity(_model_complexity):
-    if int(_model_complexity) == 1 or int(_model_complexity) == 2:
+def checkerComplexity(_model_complexity:int=1):
+    if int(_model_complexity) == 0 or int(_model_complexity) == 1 or int(_model_complexity) == 2:
         _model_complexity = int(_model_complexity)
     else:
         _model_complexity = 1
-    return int(_model_complexity)
+    return _model_complexity
 
-def checkerThreshold(param):
+def checkerThreshold(param: float):
     if param < 0.0:
         param = 0.
     if param >= 1.0:
@@ -75,9 +75,9 @@ def mp2coco_keypoint(landmark, posenames, imheight, imwidth):
     return ret_keypoints.ravel().tolist(), ret_score_list, ret_z_list
 
 
-def draw_keypoint2image(fpath_src, fpath_ex, mp_pose, mp_drawing, mp_drawing_styles,\
-                        _model_complexity=1,\
-                        _min_detection_confidence=0.3):
+def draw_keypoint2image(fpath_src: str, fpath_ex: str, mp_pose, mp_drawing, mp_drawing_styles,\
+                        _model_complexity: int=1,\
+                        _min_detection_confidence: float=0.3):
     
     _model_complexity = checkerComplexity(_model_complexity)
     _min_detection_confidence = checkerThreshold(_min_detection_confidence)
@@ -114,10 +114,10 @@ def draw_keypoint2image(fpath_src, fpath_ex, mp_pose, mp_drawing, mp_drawing_sty
              
 
 
-def draw_keypoint2video(path_video, path_export, mp_pose, mp_drawing, mp_drawing_styles,\
-                        _model_complexity=1,\
-                        _min_detection_confidence=0.5,\
-                        _min_tracking_confidence=0.5):
+def draw_keypoint2video(path_video: str, path_export: str, mp_pose, mp_drawing, mp_drawing_styles,\
+                        _model_complexity: int =1,\
+                        _min_detection_confidence: float=0.5,\
+                        _min_tracking_confidence: float=0.5):
     
     _model_complexity = checkerComplexity(_model_complexity)
     _min_detection_confidence = checkerThreshold(_min_detection_confidence)
@@ -173,10 +173,10 @@ def draw_keypoint2video(path_video, path_export, mp_pose, mp_drawing, mp_drawing
         set_audio(path_video, path_export)
 
 
-def get_keypoint_from_video(path_video, mp_pose, 
-                            _model_complexity=1,\
-                            _min_detection_confidence=0.5,\
-                            _min_tracking_confidence=0.5):
+def get_keypoint_from_video(path_video: float, mp_pose, 
+                            _model_complexity: int=1,\
+                            _min_detection_confidence: float=0.5,\
+                            _min_tracking_confidence: float=0.5):
 
     _model_complexity = checkerComplexity(_model_complexity)
     _min_detection_confidence = checkerThreshold(_min_detection_confidence)
@@ -207,10 +207,10 @@ def get_keypoint_from_video(path_video, mp_pose,
     return pose_list, imgsize_list
 
 
-def get_cocokeypoint_from_video(path_video, mp_pose, \
-                                _model_complexity=1,\
-                                _min_detection_confidence=0.5,\
-                                _min_tracking_confidence=0.5, \
+def get_cocokeypoint_from_video(path_video: str, mp_pose, \
+                                _model_complexity: int=1,\
+                                _min_detection_confidence: float=0.5,\
+                                _min_tracking_confidence: float=0.5, \
                                 fname_org = None):
 
     if fname_org is None:
@@ -264,7 +264,7 @@ def get_cocokeypoint_from_video(path_video, mp_pose, \
     
     return coco_image, coco_annotation, coco_category
 
-def get_coco_categories(mp_pose):
+def get_coco_categories(mp_pose) -> list:
     keypoint_list = [keypoint.name for keypoint in mp_pose.PoseLandmark]
     skeleton = [[loop[0]+1, loop[1]+1] for loop in list(mp_pose.POSE_CONNECTIONS)]
     # skeleton = [[loop[0], loop[1]] for loop in list(mp_pose.POSE_CONNECTIONS)]
@@ -273,9 +273,9 @@ def get_coco_categories(mp_pose):
     return coco_category
 
 # def get_cocokeypoint_from_image(image, mp_pose):
-def get_cocokeypoint_from_image(path_image, mp_pose, \
-                                _model_complexity=1,\
-                                _min_detection_confidence=0.3, 
+def get_cocokeypoint_from_image(path_image: str, mp_pose, \
+                                _model_complexity: int=1,\
+                                _min_detection_confidence: float=0.3, 
                                 fname_org = None):
 
     if fname_org is None:
@@ -323,7 +323,7 @@ def get_cocokeypoint_from_image(path_image, mp_pose, \
     return coco_image, coco_annotation, coco_category
 
 
-def get_coco_image_from_video(path_video):
+def get_coco_image_from_video(path_video: str) -> list:
 
     cap = cv2.VideoCapture(path_video)
 

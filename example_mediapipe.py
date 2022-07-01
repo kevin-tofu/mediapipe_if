@@ -26,13 +26,13 @@ def mp2coco_keypoint(landmark, posenames, imheight, imwidth):
     return np.array(ret_keypoints).astype(np.int32), np.array(ret_score_list)
 
 
-def mp_images(images, mp_drawing, mp_drawing_styles, mp_pose):
+def mp_images(images, mp_drawing, mp_drawing_styles, mp_pose, model_complexity=2):
     # For static images:
     IMAGE_FILES = images
     BG_COLOR = (192, 192, 192) # gray
     with mp_pose.Pose(
         static_image_mode=True,
-        model_complexity=2,
+        model_complexity=model_complexity,
         enable_segmentation=True,
         min_detection_confidence=0.1) as pose:
         for idx, file in enumerate(IMAGE_FILES):
@@ -134,7 +134,8 @@ def test():
     mp_drawing_styles = mp.solutions.drawing_styles
     mp_pose = mp.solutions.pose
 
-    mp_images(images, mp_drawing, mp_drawing_styles, mp_pose)
+    mp_images(images, mp_drawing, mp_drawing_styles, mp_pose, model_complexity=2)
+    mp_images(images, mp_drawing, mp_drawing_styles, mp_pose, model_complexity=0)
 
     #mp_webcam(mp_drawing, mp_drawing_styles, mp_pose)
 

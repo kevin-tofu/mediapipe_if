@@ -15,7 +15,7 @@ def minmax(value, _min, _max):
     return value
 
 
-def draw_keypoint2img(img, labels, pairs, color = [255, 0, 0], th=0.5):
+def draw_keypoint2img(img, labels: list, pairs: list, color = [255, 0, 0], th=0.5) -> np.ndarray:
 
     ret = np.copy(img)
     for label in labels:
@@ -40,7 +40,7 @@ def draw_keypoint2img(img, labels, pairs, color = [255, 0, 0], th=0.5):
     return ret
 
 
-def draw_keypoint2img_colors(img, labels, pairsList, colorList, th=0.5):
+def draw_keypoint2img_colors(img, labels: list, pairsList: list, colorList: list, th=0.5) -> np.ndarray:
 
     ret = np.copy(img)
 
@@ -72,9 +72,9 @@ def draw_keypoint2img_colors(img, labels, pairsList, colorList, th=0.5):
     return ret
 
 
-def draw_keypoint2video_colors(path_video, \
-                               path_video_dst, \
-                               labels, pairsList, colorList, th=0.5):
+def draw_keypoint2video_colors(path_video: str, \
+                               path_video_dst: str, \
+                               labels: dict, pairsList: list, colorList: list, th=0.5):
 
     from mediapipe_if.parse import set_audio
 
